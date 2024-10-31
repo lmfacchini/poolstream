@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/lmfacchini/poolstream#readme",
   "dependencies": {
-    "axios": "^1.7.7"
+    "axios": "^1.7.7",
+    "tronweb": "^6.0.0"
   }
 }
