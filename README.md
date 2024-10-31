@@ -66,8 +66,6 @@ import {
 } from "poolstream";
 ```
 
-Please note that this is not the same as v5.x. If you want to dive into more differences, check out [migration guide](https://tronweb.network/docu/docs/6.0.0/Migrating%20from%20v5)
-
 When you instantiate PoolStream you can define
 
 - First Param. Ex.: "https://api.poolstream.io"
