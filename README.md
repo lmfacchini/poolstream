@@ -1,7 +1,7 @@
 <h1 align="center">
   <a href="https://poolstream.io">
     <img align="center" src="https://raw.githubusercontent.com/lmfacchini/poolstream/refs/heads/master/logo_up.png"/>
-  </a>git
+  </a>
 </h1>
 
 ## What is PoolStream?
