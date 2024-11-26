@@ -1,7 +1,7 @@
 export interface Transaction {
   items: Array<TransactionItem>;
   fee: number;
-  extra: any;
+  extra?: any;
 }
 
 export interface SignebleTransaction extends Transaction {
@@ -16,7 +16,7 @@ export interface TransactionItem {
   from: string;
   to: string;
   amount: number;
-  extra: any;
+  extra?: any;
 }
 
 export interface SubmittedTransaction extends Transaction {
