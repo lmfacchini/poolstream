@@ -30,13 +30,13 @@ a
 ### Node.js
 
 ```bash
-npm install poolstream
+npm install @poolstream/client
 ```
 
 or
 
 ```bash
-yarn add poolstream
+yarn add @poolstream/client
 ```
 
 ## Production URL

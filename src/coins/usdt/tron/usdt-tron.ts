@@ -27,12 +27,15 @@ export class UsdtTron implements CurrencyNetworkModule {
   private async sign(
     transaction: SignebleTransaction
   ): Promise<SignedTransaction> {
-    const from = transaction.from;
     if (this.usdtContract === null) {
       throw new Error("USDT Contract Address is null.");
     }
+    if (transaction.items.length < 0) {
+      throw new Error("Incomplete transaction.");
+    }
+    const from = transaction.items[0].from;
     const usdttransaction = await this.usdtContract.methods
-      .transfer(transaction.to, transaction.amount)
+      .transfer(transaction.items[0].to, transaction.items[0].amount)
       .send({
         from,
         feeLimit: transaction.fee,
@@ -42,12 +45,7 @@ export class UsdtTron implements CurrencyNetworkModule {
       transaction.privateKey,
       usdttransaction
     );
-    const signature: string = btoa(
-      JSON.stringify({
-        signature: signedTransaction.signature,
-        contract_address: signedTransaction.contract_address,
-      })
-    );
+    const signature: string = btoa(JSON.stringify(signedTransaction));
     return { ...transaction, signature };
   }
 
