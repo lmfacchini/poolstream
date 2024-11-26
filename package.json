@@ -1,6 +1,6 @@
 {
   "name": "poolstream-client",
-  "version": "1.2.0",
+  "version": "1.0.0",
   "description": "To work with a collection of cryptocurrencies.",
   "main": "dist/index.js",
   "scripts": {

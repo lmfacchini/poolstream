@@ -23,5 +23,5 @@ export interface SubmittedTransaction extends Transaction {
   txID: string;
   confirmations: number;
   decimals: number;
-  timestamp: Date;
+  timestamp: number;
 }

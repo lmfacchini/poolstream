@@ -2,6 +2,8 @@ export {
   Transaction,
   SignebleTransaction,
   SignedTransaction,
+  SubmittedTransaction,
+  TransactionItem,
 } from "./transaction";
 export { Currency } from "./currency";
 export { CurrencyNetworkModule } from "./currency-network-modules";
