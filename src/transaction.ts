@@ -15,7 +15,7 @@ export interface SignedTransaction extends Transaction {
 export interface TransactionItem {
   from: string;
   to: string;
-  amount: number;
+  amount: string;
   extra?: any;
 }
 
