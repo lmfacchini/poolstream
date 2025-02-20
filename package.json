@@ -4,7 +4,7 @@
   "description": "To work with a collection of cryptocurrencies.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "vitest",
+    "test": "jest",
     "build": "tsc"
   },
   "repository": {

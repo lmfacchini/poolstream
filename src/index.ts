@@ -4,7 +4,7 @@ export {
   SubmittedTransaction,
   TransactionItem,
 } from "./transaction";
-export { Currency } from "./network";
+export { Network } from "./network";
 export { CurrencyNetworkModule } from "./currency-network-module";
 export { PoolStream, PoolStreamOptions } from "./poolstream";
 export { WalletAddress } from "./walletaddress";

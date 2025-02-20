@@ -19,6 +19,6 @@
     "module": "ES2022",
     "target": "ES2022"
   },
-  "include": ["src/**/*", "test/network/ripple/ripple.test.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "**/__tests__/*"]
 }
