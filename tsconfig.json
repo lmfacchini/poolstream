@@ -2,12 +2,23 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "target": "ES6",
-    "module": "commonjs",
-    "declaration": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": false,
+    "skipLibCheck": true,
     "esModuleInterop": true,
-    "strict": true
+    "sourceMap": true,
+    "declaration": false,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "useDefineForClassFields": false,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "bundler",
+    "module": "ES2022",
+    "target": "ES2022"
   },
-  "include": ["src"],
+  "include": ["src/**/*", "test/network/ripple/ripple.test.ts"],
   "exclude": ["node_modules", "**/__tests__/*"]
 }

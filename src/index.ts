@@ -1,12 +1,13 @@
 export {
   Transaction,
   SignebleTransaction,
-  SignedTransaction,
   SubmittedTransaction,
   TransactionItem,
 } from "./transaction";
-export { Currency } from "./currency";
-export { CurrencyNetworkModule } from "./currency-network-modules";
+export { Currency } from "./network";
+export { CurrencyNetworkModule } from "./currency-network-module";
 export { PoolStream, PoolStreamOptions } from "./poolstream";
 export { WalletAddress } from "./walletaddress";
 export { Balance } from "./balance";
+export { Info } from "./info";
+export { Ripple } from "./network/ripple/ripple";

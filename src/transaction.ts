@@ -1,15 +1,11 @@
 export interface Transaction {
   items: Array<TransactionItem>;
-  fee: number;
+  fee?: number;
   extra?: any;
 }
 
 export interface SignebleTransaction extends Transaction {
-  privateKey: string;
-}
-
-export interface SignedTransaction extends Transaction {
-  signature: string;
+  items: Array<TransactionItem & { secret: string }>;
 }
 
 export interface TransactionItem {

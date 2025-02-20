@@ -1,12 +1,7 @@
 import { Balance } from "./balance";
-import { Currency } from "./currency";
-import { getCoinNetworkModule } from "./currency-network-modules";
-import {
-  SignebleTransaction,
-  SignedTransaction,
-  SubmittedTransaction,
-  Transaction,
-} from "./transaction";
+import { Network } from "./network";
+import { getCoinNetworkModule } from "./currency-network-module";
+import { SignebleTransaction, SubmittedTransaction } from "./transaction";
 import { WalletAddress } from "./walletaddress";
 import axios from "axios";
 
@@ -38,95 +33,113 @@ export class PoolStream {
     });
   }
 
-  public async transactions(
-    coin: string,
-    network: string,
-    filter: TransactionFilter = {}
-  ): Promise<Array<SubmittedTransaction>> {
-    const query = Object.entries(filter)
+  public async info(params: { network: string }) {
+    return await axios({
+      method: "get",
+      headers: { ...this.apiKeyHeader() },
+      url: `${this.url}/auth/rest/v1/${params.network}/info`,
+      responseType: "json",
+    });
+  }
+
+  public async transactions(params: {
+    network: string;
+    filter?: TransactionFilter;
+    contractAddress?: string;
+  }): Promise<Array<SubmittedTransaction>> {
+    const query = Object.entries(params.filter ? params.filter : {})
       .filter(([_, value]) => value !== undefined)
       .map(([key, value]) => `${key}=${value}`)
       .join("&");
     return await axios({
       method: "get",
       headers: { ...this.apiKeyHeader() },
-      url: `${this.url}/auth/rest/v1/${coin}/${network}/transactions?${query}`,
+      url: `${this.url}/auth/rest/v1/${params.network}${
+        params.contractAddress ? `/${params.contractAddress}` : ""
+      }/transactions?${query}`,
       responseType: "json",
     });
   }
 
-  public async balances(
-    coin: string,
-    network: string,
-    addresses: string | Array<string>
-  ): Promise<Balance> {
+  public async balances(params: {
+    network: string;
+    addresses: string | Array<string>;
+    contractAddress?: string;
+  }): Promise<Balance> {
     let query: string = "?";
 
-    if (typeof addresses === "string") {
-      query += addresses;
+    if (typeof params.addresses === "string") {
+      query += params.addresses;
     } else {
-      for (let i = 0; i < addresses.length; i++) {
-        query = `${i > 0 ? "&" : ""}addresses=${addresses}`;
+      for (let i = 0; i < params.addresses.length; i++) {
+        query = `${i > 0 ? "&" : ""}addresses=${params.addresses}`;
       }
     }
     return await axios({
       method: "get",
       headers: { ...this.apiKeyHeader() },
-      url: `${this.url}/auth/rest/v1/${coin}/${network}/balances${query}`,
+      url: `${this.url}/auth/rest/v1/${params.network}${
+        params.contractAddress ? `/${params.contractAddress}` : ""
+      }/balances${query}`,
       responseType: "json",
     });
   }
 
-  public async currencies(): Promise<Array<Currency>> {
+  public async networks(): Promise<Array<Network>> {
     return await axios({
       method: "get",
-      url: `${this.url}/currencies`,
+      url: `${this.url}/networks`,
       responseType: "json",
     });
   }
 
-  public async submitTransaction(
-    coin: string,
-    network: string,
-    signedTransaction: SignedTransaction | Array<SignedTransaction>
-  ): Promise<Array<string>> {
+  public async submitTransaction(params: {
+    network: string;
+    signedTransaction: string;
+    contractAddress?: string;
+  }): Promise<Array<string>> {
     return await axios({
       method: "post",
       headers: { ...this.apiKeyHeader() },
-      url: `${this.url}/auth/rest/v1/${coin}/${network}/submitSignedTransaction`,
+      url: `${this.url}/auth/rest/v1/${params.network}${
+        params.contractAddress ? `/${params.contractAddress}` : ""
+      }/submitSignedTransaction`,
       responseType: "json",
-      data: { signedTransaction },
+      data: { signedTransaction: params.signedTransaction },
     });
   }
 
-  public async signedAndSubmitTransaction(
-    coin: string,
-    network: string,
-    transaction: SignebleTransaction | Array<SignebleTransaction>
-  ): Promise<Array<string>> {
+  public async signedAndSubmitTransaction(params: {
+    network: string;
+    transaction: SignebleTransaction;
+    contractAddress?: string;
+  }): Promise<Array<string>> {
     const signedTransaction = await getCoinNetworkModule(
-      coin,
-      network
-    ).signTransaction(transaction);
-    return await this.submitTransaction(coin, network, signedTransaction);
+      params.network,
+      false,
+      params.contractAddress
+    ).signTransaction(params.transaction);
+    return await this.submitTransaction({
+      network: params.network,
+      signedTransaction,
+      contractAddress: params.contractAddress,
+    });
   }
 
-  public async signTransaction(
-    coin: string,
-    network: string,
-    transaction: SignebleTransaction | Array<SignebleTransaction>
-  ): Promise<SignedTransaction | Array<SignedTransaction>> {
-    return await getCoinNetworkModule(coin, network).signTransaction(
-      transaction
-    );
+  public async signTransaction(params: {
+    network: string;
+    transaction: SignebleTransaction;
+    contractAddress?: string;
+  }): Promise<string> {
+    return await getCoinNetworkModule(
+      params.network,
+      false,
+      params.contractAddress
+    ).signTransaction(params.transaction);
   }
 
-  public async generateWalletAddress(
-    coin: string,
-    network: string
-  ): Promise<WalletAddress> {
+  public async generateWalletAddress(network: string): Promise<WalletAddress> {
     const walletAddress: WalletAddress = await getCoinNetworkModule(
-      coin,
       network
     ).generateWalletAddress();
     return walletAddress;
